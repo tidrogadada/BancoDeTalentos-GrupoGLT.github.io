@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalhe Conosco | Rede Drogadada</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #B22222; /* Vermelho Drogadada */
+            --bg: #0a0a0b;
+            --card-bg: #161618;
+            --input-bg: #1f1f22;
+            --text: #ffffff;
+            --text-muted: #a1a1aa;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo-area {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Espaço para o seu Logo */
+        .logo-area img {
+            max-width: 200px;
+            height: auto;
+            filter: drop-shadow(0 0 10px rgba(178, 34, 34, 0.2));
+        }
+
+        .header-text {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header-text h2 { margin: 0; font-size: 1.5rem; letter-spacing: -0.025em; }
+        .header-text p { color: var(--text-muted); font-size: 0.9rem; margin-top: 8px; }
+
+        .form-group { margin-bottom: 20px; }
+        
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-size: 0.85rem; 
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--input-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(178, 34, 34, 0.15);
+            background: #252529;
+        }
+
+        .file-upload {
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .file-upload:hover { border-color: var(--primary); background: rgba(178, 34, 34, 0.05); }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #9a1d1d;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(178, 34, 34, 0.4);
+        }
+
+        .btn:active { transform: translateY(0); }
+        .btn:disabled { background: #3f3f46; cursor: not-allowed; transform: none; }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 25px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo-area">
+        <img src="img/drogadada.png" alt="Rede Drogadada">
+    </div>
+
+    <div class="header-text">
+        <h2>Oportunidades de Carreira</h2>
+        <p>Preencha os dados e anexe o seu currículo.</p>
+    </div>
+    
+    <form id="formCandidatura">
+        <div class="form-group">
+            <label>Nome Completo</label>
+            <input type="text" name="nome" placeholder="Ex: João Silva" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+                <label>WhatsApp</label>
+                <input type="tel" name="whatsapp" required placeholder="(00) 00000-0000">
+            </div>
+            <div class="form-group">
+                <label>Data de Nascimento</label>
+                <input type="text" name="dataNascimento" required placeholder="DD/MM/AAAA">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Escolaridade</label>
+            <select name="escolaridade" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="Ensino Médio Incompleto">Ensino Médio Incompleto</option>
+                <option value="Ensino Médio Completo">Ensino Médio Completo</option>
+                <option value="Superior Cursando">Ensino Superior Cursando</option>
+                <option value="Superior Completo">Ensino Superior Completo</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Vaga e Experiência</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <select name="vaga">
+                    <option value="Balconista">Balconista</option>
+                    <option value="Estoque">Estoque</option>
+                    <option value="Caixa">Caixa</option>
+                </select>
+                <select name="estrategica">
+                    <option value="nao">Sem Experiência</option>
+                    <option value="sim">Com Experiência</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="campo">
+    <label>Anexe seu Currículo (PDF ou Imagem):</label>
+    <input type="file" id="curriculo" accept=".pdf, .jpg, .jpeg, .png" required>
+</div>
+
+        <input type="hidden" name="curso_tecnico" value="nao"> <button type="submit" class="btn" id="btnEnviar">ENVIAR CANDIDATURA</button>
+    </form>
+
+    <div class="footer-note">
+        &copy; 2024 Rede Drogadada - Todos os direitos reservados.
+    </div>
+</div>
+
+<script>
+    // URL do seu Google Apps Script (Verifique se é a versão mais recente)
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby6W3uJc-HF70KKvRbCsC12mQDmQt4Fap0vYtX_woZvCs0jNfbfAnQ5QvSS4xnQnerA/exec';
+
+    document.getElementById('formCandidatura').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const btn = document.getElementById('btnEnviar');
+        const originalText = btn.innerText;
+        
+        // 1. Pega o arquivo pelo ID correto (curriculo)
+        const fileInput = document.getElementById('curriculo'); 
+        const file = fileInput.files[0];
+        
+        if (!file) {
+            alert('Por favor, selecione um arquivo de currículo.');
+            return;
+        }
+
+        // Validação de tamanho (5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            alert('O arquivo é muito grande. Máximo 5MB.');
+            return;
+        }
+
+        btn.innerText = "ENVIANDO...";
+        btn.disabled = true;
+
+        const reader = new FileReader();
+        reader.onload = function() {
+            // Prepara o arquivo para o Google Script
+            const base64Data = reader.result.split(',')[1];
+            
+            // Pega todos os campos do formulário automaticamente
+            const formData = new FormData(e.target);
+            const payload = Object.fromEntries(formData);
+            
+            // Adiciona as informações do arquivo que o Script espera
+            payload.arquivo = reader.result; // Enviamos o DataURL completo para facilitar no Script
+            payload.nomeArquivo = file.name;
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Evita erros de redirecionamento do Google
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                // Com 'no-cors', o fetch não retorna o JSON, então assumimos sucesso aqui
+                alert('Candidatura enviada com sucesso!');
+                document.getElementById('formCandidatura').reset();
+            })
+            .catch(err => {
+                console.error('Erro:', err);
+                alert('Erro ao enviar. Verifique sua conexão.');
+            })
+            .finally(() => {
+                btn.innerText = originalText;
+                btn.disabled = false;
+            });
+        };
+        
+        reader.readAsDataURL(file);
+    });
+</script>
+</body>
+</html>
