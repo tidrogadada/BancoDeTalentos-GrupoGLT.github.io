@@ -7,25 +7,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #B22222; /* Vermelho Drogadada */
+            --primary: #B22222;
             --primary-hover: #8B0000;
             --bg: #0a0a0b;
             --card-bg: #161618;
             --input-bg: #1f1f22;
             --text: #ffffff;
             --text-muted: #a1a1aa;
-            --border: rgba(255, 255, 255, 0.1);
         }
 
         * { box-sizing: border-box; }
 
         body {
             background-color: var(--bg);
-            background-image: radial-gradient(circle at top right, #1a1a1d, #0a0a0b);
             color: var(--text);
             font-family: 'Inter', sans-serif;
             margin: 0;
-            display: flex;
+            display: flex; /* Garante centralização */
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -34,47 +32,30 @@
 
         .container {
             width: 100%;
-            max-width: 480px;
+            max-width: 480px; /* Impede que ele espalhe na horizontal */
             background: var(--card-bg);
             border-radius: 24px;
             padding: 40px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            display: block; /* Garante que os itens fiquem um abaixo do outro */
         }
 
         header {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
 
         header img {
             max-width: 180px;
-            height: auto;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 15px rgba(178, 34, 34, 0.3));
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 10px rgba(178, 34, 34, 0.3));
         }
 
-        header h2 { 
-            margin: 0; 
-            font-size: 1.6rem; 
-            font-weight: 700;
-            letter-spacing: -0.025em;
-            color: var(--text);
+        .form-group { 
+            margin-bottom: 20px; 
+            text-align: left; /* Garante que os textos não fiquem perdidos */
         }
-
-        header p { 
-            color: var(--text-muted); 
-            font-size: 0.95rem; 
-            margin-top: 8px; 
-        }
-
-        .form-group { margin-bottom: 22px; }
         
         label { 
             display: block; 
@@ -83,87 +64,35 @@
             font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
         }
 
         input, select {
-            width: 100%;
-            padding: 14px 16px;
+            width: 100%; /* Força ocupar a largura do card */
+            padding: 12px 16px;
             background: var(--input-bg);
-            border: 1px solid var(--border);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             color: #fff;
-            font-size: 1rem;
-            transition: all 0.2s ease;
             outline: none;
-        }
-
-        input:focus, select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(178, 34, 34, 0.2);
-            background: #252529;
-        }
-
-        /* Estilização para o campo de arquivo */
-        .file-input-wrapper {
-            position: relative;
-            border: 2px dashed var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-
-        .file-input-wrapper:hover {
-            border-color: var(--primary);
-            background: rgba(178, 34, 34, 0.05);
-        }
-
-        input[type="file"] {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            cursor: pointer;
         }
 
         .btn {
             width: 100%;
-            padding: 18px;
+            padding: 16px;
             background: var(--primary);
             border: none;
-            border-radius: 14px;
+            border-radius: 12px;
             color: white;
             font-weight: 700;
-            font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 15px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            margin-top: 10px;
         }
 
-        .btn:hover {
-            background: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(178, 34, 34, 0.5);
-        }
-
-        .btn:disabled { 
-            background: #3f3f46; 
-            cursor: not-allowed; 
-            transform: none; 
-            box-shadow: none;
-        }
-
-        .footer-note {
-            text-align: center;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 30px;
+        /* Ajuste para grids internos (celular e data) */
+        .row-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
     </style>
 </head>
@@ -171,26 +100,24 @@
 
 <div class="container">
     <header>
-        <img src="https://github.com/tidrogadada/BancoDeTalentos-GrupoGLT.github.io/blob/main/img/drogadada.png?raw=true" 
-             alt="Rede Drogadada" 
-             onerror="this.src='https://via.placeholder.com/180x80/161618/ffffff?text=REDE+DROGADADA'">
+        <img src="https://github.com/tidrogadada/BancoDeTalentos-GrupoGLT.github.io/blob/main/img/drogadada.png?raw=true" onerror="this.src='https://via.placeholder.com/180x80?text=DROGADADA'">
         <h2>Banco de Talentos</h2>
-        <p>Construa sua carreira conosco</p>
+        <p>Faça parte da nossa equipe!</p>
     </header>
 
     <form id="formCandidatura">
         <div class="form-group">
             <label>Nome Completo</label>
-            <input type="text" name="nome" placeholder="Seu nome completo" required>
+            <input type="text" name="nome" placeholder="Ex: João Silva" required>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div class="row-group">
             <div class="form-group">
                 <label>WhatsApp</label>
-                <input type="tel" name="whatsapp" id="whatsapp" required placeholder="(00) 00000-0000">
+                <input type="tel" name="whatsapp" required placeholder="(00) 00000-0000">
             </div>
             <div class="form-group">
-                <label>Nascimento</label>
+                <label>Data de Nascimento</label>
                 <input type="date" name="dataNascimento" required>
             </div>
         </div>
@@ -198,7 +125,7 @@
         <div class="form-group">
             <label>Escolaridade</label>
             <select name="escolaridade" required>
-                <option value="" disabled selected>Selecione seu nível...</option>
+                <option value="" disabled selected>Selecione...</option>
                 <option value="Ensino Médio Incompleto">Ensino Médio Incompleto</option>
                 <option value="Ensino Médio Completo">Ensino Médio Completo</option>
                 <option value="Superior Cursando">Ensino Superior Cursando</option>
@@ -207,34 +134,27 @@
         </div>
 
         <div class="form-group">
-            <label>Vaga de Interesse & Experiência</label>
-            <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 10px;">
+            <label>Vaga e Experiência</label>
+            <div class="row-group">
                 <select name="vaga" required>
                     <option value="Balconista">Balconista</option>
                     <option value="Estoque">Estoque</option>
                     <option value="Caixa">Caixa</option>
-                    <option value="Perfumaria">Perfumaria</option>
-                    <option value="Serviços Gerais">Serviços Gerais</option>
                 </select>
                 <select name="estrategica" required>
                     <option value="nao">Iniciante</option>
-                    <option value="sim">Tenho Exp.</option>
+                    <option value="sim">Com Exp.</option>
                 </select>
             </div>
         </div>
 
         <div class="form-group">
-            <label>Anexar Currículo (PDF ou Foto)</label>
-            <div class="file-input-wrapper">
-                <span id="fileName" style="color: var(--text-muted); font-size: 0.9rem;">Clique para selecionar arquivo</span>
-                <input type="file" id="curriculo" accept=".pdf,image/*" required>
-            </div>
+            <label>Anexe seu Currículo</label>
+            <input type="file" id="curriculo" accept=".pdf,image/*" required style="padding: 10px; border: 2px dashed rgba(255,255,255,0.1);">
         </div>
 
-        <button type="submit" class="btn" id="btnEnviar">Enviar Candidatura</button>
+        <button type="submit" class="btn" id="btnEnviar">ENVIAR CANDIDATURA</button>
     </form>
-
-    <p class="footer-note">Sua privacidade é importante. Seus dados estão seguros conosco.</p>
 </div>
 
 <script>
@@ -295,5 +215,6 @@
 
 </body>
 </html>
+
 
 
