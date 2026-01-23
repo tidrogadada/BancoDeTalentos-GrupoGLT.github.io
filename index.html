@@ -90,6 +90,35 @@
             gap: 15px;
         }
 
+        /* Estilização da Seção de Vagas */
+        .vaga-card-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .vaga-card-item:hover {
+            background: rgba(178, 34, 34, 0.15);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .vaga-card-item strong {
+            color: var(--text);
+            font-size: 0.95em;
+        }
+
+        .vaga-card-item small {
+            color: var(--text-muted);
+        }
+
         /* Estilização do Campo de Arquivo */
         .file-box {
             border: 2px dashed rgba(255,255,255,0.1);
@@ -148,14 +177,16 @@
         <p style="color: var(--text-muted); margin-top: 5px;">Venha trabalhar conosco!</p>
     </header>
 
-    <div id="secao-vagas" class="card-glass" style="margin-bottom: 25px; border-left: 5px solid #681313;">
-    <h3 style="color: #681313; margin: 0 0 10px 0;">📍 Vagas em Aberto</h3>
-    <p style="font-size: 0.85em; color: #666; margin-bottom: 15px;">Clique em uma vaga para selecioná-la automaticamente no formulário.</p>
-    
-    <div id="container-vagas-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
-        <p style="color: #999;">Carregando vagas disponíveis...</p>
+    <div id="secao-vagas" style="margin-bottom: 30px; padding: 20px; background: rgba(255,255,255,0.02); border-radius: 18px; border: 1px solid rgba(255,255,255,0.05);">
+        <h3 style="color: var(--primary); margin: 0 0 5px 0; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 1.2rem;">📍</span> Vagas em Aberto
+        </h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Toque na vaga para selecionar rapidamente.</p>
+        
+        <div id="container-vagas-cards" style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+            <p style="color: #666; font-size: 0.8rem;">Buscando oportunidades...</p>
+        </div>
     </div>
-</div>
 
     <form id="formCandidatura">
         <div class="form-group">
@@ -189,14 +220,15 @@
         <div class="form-group">
             <label>Vaga e Experiência</label>
             <div class="row-group">
-                <select name="vaga" required>
-                <option value="Administrativo">Administrativo</option>
-                <option value="Balconista">Balconista</option>
-                <option value="Caixa">Caixa</option>
-                <option value="Estoque">Estoque</option>
-                <option value="Farmaceutico">Farmacêutico</option>
-                <option value="Gerente">Gerente</option>
-                <option value="Perfumaria">Perfumaria</option>
+                <select name="vaga" id="vagaSelect" required>
+                    <option value="" disabled selected>Escolha a vaga</option>
+                    <option value="Administrativo">Administrativo</option>
+                    <option value="Balconista">Balconista</option>
+                    <option value="Caixa">Caixa</option>
+                    <option value="Estoque">Estoque</option>
+                    <option value="Farmaceutico">Farmacêutico</option>
+                    <option value="Gerente">Gerente</option>
+                    <option value="Perfumaria">Perfumaria</option>
                 </select>
                 <select name="estrategica" required>
                     <option value="nao">Sem Experiência</option>
@@ -220,28 +252,22 @@
 <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwFbmuOG9OD6A6SRrib1J93sGC-ZnHxIk7nSYOlee4GRrJYhwVF4HAVZmj19v79AlYN/exec';
 
-    // Atualiza o texto quando um arquivo é selecionado
+    // Atualiza o texto do arquivo
     document.getElementById('curriculo').addEventListener('change', function(e) {
         const name = e.target.files[0] ? e.target.files[0].name : "Clique para selecionar arquivo";
         document.getElementById('fileName').innerText = name;
         document.getElementById('fileName').style.color = "#fff";
     });
 
+    // Envio do formulário
     document.getElementById('formCandidatura').addEventListener('submit', function(e) {
         e.preventDefault();
         const btn = document.getElementById('btnEnviar');
         const fileInput = document.getElementById('curriculo');
         const file = fileInput.files[0];
 
-        if (!file) {
-            alert("Por favor, selecione seu currículo.");
-            return;
-        }
-
-        if (file.size > 5 * 1024 * 1024) {
-            alert('O arquivo é muito grande. Máximo 5MB.');
-            return;
-        }
+        if (!file) { alert("Selecione seu currículo."); return; }
+        if (file.size > 5 * 1024 * 1024) { alert('Arquivo muito grande (Máx 5MB).'); return; }
 
         btn.innerText = "ENVIANDO AGUARDE...";
         btn.disabled = true;
@@ -250,7 +276,6 @@
         reader.onload = function() {
             const formData = new FormData(e.target);
             const payload = Object.fromEntries(formData);
-            
             payload.arquivo = reader.result;
             payload.nomeArquivo = file.name;
 
@@ -267,7 +292,7 @@
             })
             .catch(err => {
                 console.error(err);
-                alert('Erro ao enviar. Tente novamente.');
+                alert('Erro ao enviar.');
             })
             .finally(() => {
                 btn.innerText = "ENVIAR CANDIDATURA";
@@ -276,55 +301,67 @@
         };
         reader.readAsDataURL(file);
     });
+
+    // Função para carregar as vagas
     async function carregarVagasEConectarAoForm() {
-    try {
-        const response = await fetch(`${SCRIPT_URL}?tipo=vagas`);
-        const vagas = await response.json();
-        const container = document.getElementById('container-vagas-cards');
-        const selectVaga = document.getElementById('vaga'); // Certifique-se que o ID do seu select de vagas seja 'vaga'
+        try {
+            const response = await fetch(`${SCRIPT_URL}?tipo=vagas`);
+            const vagas = await response.json();
+            const container = document.getElementById('container-vagas-cards');
 
-        // Filtra apenas as que o RH marcou como "Aberta"
-        const vagasAbertas = vagas.filter(v => v.status.toString().toLowerCase() === 'aberta');
+            const vagasAbertas = vagas.filter(v => v.status && v.status.toString().toLowerCase() === 'aberta');
 
-        if (vagasAbertas.length === 0) {
-            container.innerHTML = "<p style='color: #666;'>No momento, estamos aceitando currículos apenas para banco de reserva.</p>";
-            return;
+            if (vagasAbertas.length === 0) {
+                container.innerHTML = "<p style='color: #666; font-size: 0.8rem;'>No momento aceitamos apenas banco de reserva.</p>";
+                return;
+            }
+
+            container.innerHTML = vagasAbertas.map(v => `
+                <div class="vaga-card-item" onclick="selecionarVaga('${v.cargo}', '${v.loja}')">
+                    <strong>${v.cargo}</strong>
+                    <small>🏢 Unidade: ${v.loja}</small>
+                    ${v.requisitos ? `<small style="font-size: 0.7rem; opacity: 0.6;">${v.requisitos}</small>` : ''}
+                </div>
+            `).join('');
+        } catch (e) {
+            console.error("Erro ao carregar vagas:", e);
+        }
+    }
+
+    // Função para selecionar a vaga no select
+    function selecionarVaga(cargo, loja) {
+        const select = document.getElementById('vagaSelect');
+        const valorProcurado = cargo.trim();
+
+        // Tenta encontrar o valor no select
+        let encontrado = false;
+        for (let i = 0; i < select.options.length; i++) {
+            if (select.options[i].value.toLowerCase() === valorProcurado.toLowerCase()) {
+                select.selectedIndex = i;
+                encontrado = true;
+                break;
+            }
         }
 
-        container.innerHTML = vagasAbertas.map(v => `
-            <div class="vaga-card-item" onclick="selecionarVaga('${v.cargo}', '${v.loja}')" 
-                 style="background: rgba(104, 19, 19, 0.05); padding: 12px; border-radius: 10px; border: 1px solid rgba(104, 19, 19, 0.1); cursor: pointer; transition: 0.3s;">
-                <strong style="color: #681313; display: block; font-size: 0.95em;">${v.cargo}</strong>
-                <small style="display: block; margin-top: 4px; color: #444;">📍 Unidade: ${v.loja}</small>
-                <small style="color: #888; font-size: 0.75rem; display: block; margin-top: 4px;">${v.requisitos || ''}</small>
-            </div>
-        `).join('');
-    } catch (e) {
-        console.error("Erro ao carregar vagas:", e);
-    }
-}
-
-// Função que preenche o formulário sozinha
-function selecionarVaga(cargo, loja) {
-    const campoVaga = document.getElementById('vaga'); // Nome do campo no seu formulário
-    if (campoVaga) {
-        campoVaga.value = cargo + " - " + loja;
+        // Feedback visual
+        select.style.borderColor = "var(--primary)";
+        select.style.boxShadow = "0 0 10px rgba(178, 34, 34, 0.4)";
         
-        // Efeito visual para o usuário ver que funcionou
-        campoVaga.style.backgroundColor = "#fff3f3";
-        setTimeout(() => campoVaga.style.backgroundColor = "", 1000);
-        
-        // Rola a página até o formulário
-        campoVaga.scrollIntoView({ behavior: 'smooth' });
-    }
-}
+        setTimeout(() => {
+            select.style.borderColor = "";
+            select.style.boxShadow = "";
+        }, 1500);
 
-// Inicia a busca ao carregar o site
-window.addEventListener('load', carregarVagasEConectarAoForm);
+        // Scroll suave
+        select.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    window.addEventListener('load', carregarVagasEConectarAoForm);
 </script>
 
 </body>
 </html>
+
 
 
 
