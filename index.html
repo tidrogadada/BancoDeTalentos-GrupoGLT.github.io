@@ -329,38 +329,49 @@
     }
 
     // Função para selecionar a vaga no select
-    function selecionarVaga(cargo, loja) {
-        const select = document.getElementById('vagaSelect');
-        const valorProcurado = cargo.trim();
+   function selecionarVaga(cargo, loja) {
+    const select = document.getElementById('vagaSelect');
+    
+    // Função interna para remover acentos e deixar tudo minúsculo
+    const normalizar = (str) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
 
-        // Tenta encontrar o valor no select
-        let encontrado = false;
-        for (let i = 0; i < select.options.length; i++) {
-            if (select.options[i].value.toLowerCase() === valorProcurado.toLowerCase()) {
-                select.selectedIndex = i;
-                encontrado = true;
-                break;
-            }
+    const cargoAlvo = normalizar(cargo);
+    let encontrado = false;
+
+    for (let i = 0; i < select.options.length; i++) {
+        const opcaoTexto = normalizar(select.options[i].text);
+        const opcaoValor = normalizar(select.options[i].value);
+
+        // Compara tanto o texto visível quanto o valor interno do select
+        if (opcaoTexto === cargoAlvo || opcaoValor === cargoAlvo) {
+            select.selectedIndex = i;
+            encontrado = true;
+            break;
         }
+    }
 
-        // Feedback visual
+    if (encontrado) {
+        // Feedback visual de sucesso
         select.style.borderColor = "var(--primary)";
-        select.style.boxShadow = "0 0 10px rgba(178, 34, 34, 0.4)";
+        select.style.backgroundColor = "rgba(178, 34, 34, 0.1)";
         
         setTimeout(() => {
             select.style.borderColor = "";
-            select.style.boxShadow = "";
+            select.style.backgroundColor = "";
         }, 1500);
 
-        // Scroll suave
+        // Rola até o formulário
         select.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+        console.warn("Vaga não encontrada no select: " + cargo);
     }
-
-    window.addEventListener('load', carregarVagasEConectarAoForm);
+}
+window.addEventListener('load', carregarVagasEConectarAoForm);
 </script>
 
 </body>
 </html>
+
 
 
 
