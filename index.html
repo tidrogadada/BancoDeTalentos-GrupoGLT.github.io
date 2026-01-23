@@ -148,6 +148,15 @@
         <p style="color: var(--text-muted); margin-top: 5px;">Venha trabalhar conosco!</p>
     </header>
 
+    <div id="secao-vagas" class="card-glass" style="margin-bottom: 25px; border-left: 5px solid #681313;">
+    <h3 style="color: #681313; margin: 0 0 10px 0;">📍 Vagas em Aberto</h3>
+    <p style="font-size: 0.85em; color: #666; margin-bottom: 15px;">Clique em uma vaga para selecioná-la automaticamente no formulário.</p>
+    
+    <div id="container-vagas-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+        <p style="color: #999;">Carregando vagas disponíveis...</p>
+    </div>
+</div>
+
     <form id="formCandidatura">
         <div class="form-group">
             <label>Nome Completo</label>
@@ -267,10 +276,56 @@
         };
         reader.readAsDataURL(file);
     });
+    async function carregarVagasEConectarAoForm() {
+    try {
+        const response = await fetch(`${SCRIPT_URL}?tipo=vagas`);
+        const vagas = await response.json();
+        const container = document.getElementById('container-vagas-cards');
+        const selectVaga = document.getElementById('vaga'); // Certifique-se que o ID do seu select de vagas seja 'vaga'
+
+        // Filtra apenas as que o RH marcou como "Aberta"
+        const vagasAbertas = vagas.filter(v => v.status.toString().toLowerCase() === 'aberta');
+
+        if (vagasAbertas.length === 0) {
+            container.innerHTML = "<p style='color: #666;'>No momento, estamos aceitando currículos apenas para banco de reserva.</p>";
+            return;
+        }
+
+        container.innerHTML = vagasAbertas.map(v => `
+            <div class="vaga-card-item" onclick="selecionarVaga('${v.cargo}', '${v.loja}')" 
+                 style="background: rgba(104, 19, 19, 0.05); padding: 12px; border-radius: 10px; border: 1px solid rgba(104, 19, 19, 0.1); cursor: pointer; transition: 0.3s;">
+                <strong style="color: #681313; display: block; font-size: 0.95em;">${v.cargo}</strong>
+                <small style="display: block; margin-top: 4px; color: #444;">📍 Unidade: ${v.loja}</small>
+                <small style="color: #888; font-size: 0.75rem; display: block; margin-top: 4px;">${v.requisitos || ''}</small>
+            </div>
+        `).join('');
+    } catch (e) {
+        console.error("Erro ao carregar vagas:", e);
+    }
+}
+
+// Função que preenche o formulário sozinha
+function selecionarVaga(cargo, loja) {
+    const campoVaga = document.getElementById('vaga'); // Nome do campo no seu formulário
+    if (campoVaga) {
+        campoVaga.value = cargo + " - " + loja;
+        
+        // Efeito visual para o usuário ver que funcionou
+        campoVaga.style.backgroundColor = "#fff3f3";
+        setTimeout(() => campoVaga.style.backgroundColor = "", 1000);
+        
+        // Rola a página até o formulário
+        campoVaga.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// Inicia a busca ao carregar o site
+window.addEventListener('load', carregarVagasEConectarAoForm);
 </script>
 
 </body>
 </html>
+
 
 
 
