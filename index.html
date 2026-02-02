@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalhe Conosco - Drogaria Total Drogadada</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root {
+            --bg-body: #fff5f7;
+            --bg-container: #ffffff;
+            --primary-red: #d32f2f;
+            --secondary-pink: #ff80ab;
+            --text-main: #333;
+            --text-sub: #777;
+            --input-border: #f0f0f0;
+            --whatsapp-green: #25d366;
+            --email-pink: #e91e63;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+			    color-scheme: dark;
+                --bg-body: #121212;
+                --bg-container: #1e1e1e;
+                --primary-red: #ff5252;
+                --secondary-pink: #ff80ab;
+                --text-main: #e0e0e0;
+                --text-sub: #b0b0b0;
+                --input-border: #333;
+            }
+        }
+
+        body {
+            font-family: 'segoe ui', roboto, helvetica, arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0; padding: 20px;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; transition: background 0.3s ease;
+        }
+
+        .container {
+            background-color: var(--bg-container);
+            width: 100%; max-width: 500px;
+            padding: 35px; border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            text-align: center; border-top: 10px solid var(--primary-red);
+        }
+
+        .logo { 
+            width: 100%; 
+            max-width: 320px; 
+            height: auto; 
+            margin: 10px 0 20px 0; 
+        }
+
+        h1 { color: var(--primary-red); font-size: 1.6rem; margin-bottom: 8px; }
+        p { color: var(--text-sub); font-size: 0.95rem; margin-bottom: 25px; }
+
+        .form-group { text-align: left; margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--primary-red); font-size: 0.85rem; text-transform: uppercase; }
+
+        input, select {
+            width: 100%; padding: 12px;
+            border: 2px solid var(--input-border);
+            border-radius: 10px; box-sizing: border-box;
+            font-size: 1rem; background-color: var(--bg-container);
+            color: var(--text-main); transition: all 0.3s;
+        }
+
+        .campo-erro {
+            border-color: var(--primary-red) !important;
+            background-color: rgba(211, 47, 47, 0.05);
+        }
+
+        .btn-action {
+            color: white; border: none; padding: 16px; border-radius: 10px;
+            font-size: 1rem; font-weight: bold; cursor: pointer; width: 100%;
+            margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 10px;
+            transition: transform 0.2s;
+        }
+
+        .btn-action:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .btn-whatsapp { background-color: var(--whatsapp-green); }
+        .btn-email { background-color: var(--email-pink); }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        
+        #display-idade {
+            font-size: 0.85rem; color: var(--text-sub); font-weight: bold;
+            margin-top: 5px; display: block; text-align: center; width: 100%; min-height: 14px;
+        }
+
+        .aviso-anexo {
+            background: rgba(255, 193, 7, 0.1); border-left: 4px solid #ffc107;
+            padding: 10px; margin-top: 20px; font-size: 0.85rem;
+            color: var(--text-main); text-align: left; border-radius: 4px;
+        }
+
+        @media (max-width: 400px) { .grid-2 { grid-template-columns: 1fr; } }
+		
+		select option {
+			background-color: var(--bg-container);
+			color: var(--text-main);
+		}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="img/logo.png" alt="Drogaria Total Drogadada" class="logo">    
+    <p>Preencha os dados e envie sua candidatura:</p>
+
+    <form id="mainForm">
+        <div class="form-group">
+            <label for="nome">Nome Completo</label>
+            <input type="text" id="nome" required autofocus>
+        </div>
+
+        <div class="grid-2">
+            <div class="form-group">
+                <label for="nascimento">Nascimento</label>
+                <input type="text" id="nascimento" placeholder="DD/MM/AAAA" required maxlength="10" inputmode="numeric">
+                <span id="display-idade"></span>
+            </div>
+            <div class="form-group">
+                <label for="genero">Gênero</label>
+                <select id="genero" required>
+                    <option value="">Selecione...</option>
+                    <option>Masculino</option>
+                    <option>Feminino</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="form-group">
+                <label for="experiencia">Experiência</label>
+                <select id="experiencia" required>
+                    <option value="">Selecione...</option>
+                    <option>Com experiência</option>
+                    <option>Sem experiência</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="vaga">Área de Interesse</label>
+                <select id="vaga" required>
+                    <option value="">Selecione...</option>
+                    <option>Administrativo</option>
+                    <option>Atendente / Balconista</option>
+                    <option>Auxiliar de Farmácia</option>
+                    <option>Estoque / Repositor</option>
+                    <option>Farmacêutico(a)</option>
+                    <option>Gerente / Subgerente</option>
+                    <option>Higiene / Limpeza</option>
+                    <option>Motoboy / Entregador</option>
+                    <option>Operador(a) de Caixa</option>
+                    <option>Perfumaria</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="escolaridade">Escolaridade</label>
+            <select id="escolaridade" required>
+                <option value="">Selecione...</option>
+                <option>Ensino Fundamental</option>
+                <option>Ensino Médio Incompleto</option>
+                <option>Ensino Médio Completo</option>
+                <option>Ensino Superior Cursando</option>
+                <option>Ensino Superior Completo</option>
+                <option>Pós-Graduação</option>
+            </select>
+        </div>
+
+        <div class="aviso-anexo">
+            <strong>⚠️ Lembrete:</strong> Ao abrir o WhatsApp ou E-mail, não esqueça de <strong>anexar seu currículo</strong> manualmente.
+        </div>
+
+        <button type="button" id="btnWA" onclick="enviarWA()" class="btn-action btn-whatsapp">ENVIAR POR WHATSAPP</button>
+        <button type="button" id="btnEmail" onclick="enviarEmail()" class="btn-action btn-email">ENVIAR POR E-MAIL</button>
+    </form>
+</div>
+
+<script>
+    let idadeCalculada = "";
+
+    // Capitalização de Nome
+    document.getElementById('nome').addEventListener('blur', function (e) {
+        let texto = e.target.value.toLowerCase().trim();
+        if (!texto) return;
+        const preposicoes = ["da", "de", "do", "das", "dos", "e"];
+        e.target.value = texto.split(/\s+/).map(palavra => 
+            preposicoes.includes(palavra) ? palavra : palavra.charAt(0).toUpperCase() + palavra.slice(1)
+        ).join(' ');
+        this.classList.remove('campo-erro');
+    });
+
+    // Remover erro ao interagir
+    document.querySelectorAll('input, select').forEach(el => {
+        el.addEventListener('input', () => el.classList.remove('campo-erro'));
+        el.addEventListener('change', () => el.classList.remove('campo-erro'));
+    });
+
+    // Máscara de Nascimento
+    document.getElementById('nascimento').addEventListener('input', function (e) {
+        let v = e.target.value.replace(/\D/g, '');
+        if (v.length > 8) v = v.slice(0, 8);
+        let formatado = v;
+        if (v.length > 2) formatado = v.slice(0, 2) + '/' + v.slice(2);
+        if (v.length > 4) formatado = v.slice(0, 2) + '/' + v.slice(2, 4) + '/' + v.slice(4);
+        e.target.value = formatado;
+
+        if (formatado.length === 10) {
+            calcularIdade(formatado);
+        } else {
+            document.getElementById('display-idade').innerText = "";
+            idadeCalculada = "";
+        }
+    });
+
+    function calcularIdade(dataStr) {
+        const partes = dataStr.split("/");
+        const nascimento = new Date(partes[2], partes[1] - 1, partes[0]);
+        const hoje = new Date();
+        if (isNaN(nascimento.getTime())) return;
+        
+        let idade = hoje.getFullYear() - nascimento.getFullYear();
+        const m = hoje.getMonth() - nascimento.getMonth();
+        if (m < 0 || (m === 0 && hoje.getDate() < nascimento.getDate())) idade--;
+        
+        if (idade >= 10 && idade < 100) {
+            idadeCalculada = idade + " anos";
+            document.getElementById('display-idade').innerText = idadeCalculada;
+        } else {
+            idadeCalculada = "";
+            document.getElementById('display-idade').innerText = "";
+        }
+    }
+
+    // VALIDAÇÃO COM SWEETALERT2
+    function validar() {
+        const camposIds = ['nome', 'nascimento', 'genero', 'experiencia', 'vaga', 'escolaridade'];
+        let primeiroErro = null;
+
+        camposIds.forEach(id => {
+            const el = document.getElementById(id);
+            const valor = el.value.trim();
+            if (!valor || (id === 'nascimento' && valor.length < 10)) {
+                el.classList.add('campo-erro');
+                if (!primeiroErro) primeiroErro = el;
+            }
+        });
+
+        if (primeiroErro) {
+            let mensagem = "Por favor, preencha todos os campos destacados.";
+            if (primeiroErro.id === 'nascimento' && primeiroErro.value.length > 0) {
+                mensagem = "Por favor, digite a data de nascimento completa.";
+            }
+
+            // Chamada do SweetAlert2
+            Swal.fire({
+                icon: 'warning',
+                title: 'Atenção',
+                text: mensagem,
+                confirmButtonColor: '#d32f2f',
+                confirmButtonText: 'Entendido'
+            });
+
+            primeiroErro.focus();
+            return false;
+        }
+        return true;
+    }
+
+    function setBtnLoading(id, isLoading) {
+        const btn = document.getElementById(id);
+        if (isLoading) {
+            btn.disabled = true;
+            btn.dataset.originalText = btn.innerText;
+            btn.innerText = "Processando...";
+        } else {
+            btn.disabled = false;
+            btn.innerText = btn.dataset.originalText;
+        }
+    }
+
+    function enviarWA() {
+        if(!validar()) return;
+        setBtnLoading('btnWA', true);
+
+        const n = document.getElementById('nome').value;
+        const g = document.getElementById('genero').value;
+        const v = document.getElementById('vaga').value;
+        const d = document.getElementById('nascimento').value;
+        const s = document.getElementById('escolaridade').value;
+        const x = document.getElementById('experiencia').value;
+
+        const msg = `*Novo Candidato - Drogaria Total Drogadada*%0A%0A*Nome:* ${n}%0A*Gênero:* ${g}%0A*Vaga:* ${v}%0A*Nascimento:* ${d} (${idadeCalculada})%0A*Escolaridade:* ${s}%0A*Experiência:* ${x}%0A%0A_Estou enviando meu currículo abaixo._`;
+        
+        // Alerta de sucesso antes de sair
+        Swal.fire({
+            icon: 'success',
+            title: 'Tudo pronto!',
+            text: 'Estamos te levando para o WhatsApp...',
+            showConfirmButton: false,
+            timer: 2000
+        });
+
+        setTimeout(() => {
+            window.open(`https://wa.me/5517996485513?text=${msg}`, '_blank');
+            setBtnLoading('btnWA', false);
+        }, 1500);
+    }
+
+    function enviarEmail() {
+        if(!validar()) return;
+        setBtnLoading('btnEmail', true);
+
+        const n = document.getElementById('nome').value;
+        const g = document.getElementById('genero').value;
+        const v = document.getElementById('vaga').value;
+        const d = document.getElementById('nascimento').value;
+        const s = document.getElementById('escolaridade').value;
+        const x = document.getElementById('experiencia').value;
+
+        const mail = "dp@grupoglt.com.br";
+        const sub = encodeURIComponent(`Currículo: ${n} - ${v} (Drogadada)`);
+        const body = encodeURIComponent(`Olá, equipe de DP.\n\nSegue dados para a unidade Drogaria Total Drogadada:\n\n- Nome: ${n}\n- Gênero: ${g}\n- Vaga: ${v}\n- Nascimento: ${d} (${idadeCalculada})\n- Escolaridade: ${s}\n- Experiência: ${x}\n\n[ANEXE SEU CURRÍCULO AQUI]`);
+        
+        Swal.fire({
+            icon: 'success',
+            title: 'Tudo pronto!',
+            text: 'Abrindo seu aplicativo de e-mail...',
+            showConfirmButton: false,
+            timer: 2000
+        });
+
+        setTimeout(() => {
+            window.location.href = `mailto:${mail}?subject=${sub}&body=${body}`;
+            setBtnLoading('btnEmail', false);
+        }, 1500);
+    }
+</script>
+
+</body>
+</html>
